@@ -1,0 +1,203 @@
+.messages-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.messages-header {
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.messages-back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(249, 250, 251, 0.95) 100%);
+  backdrop-filter: blur(10px);
+  color: #374151;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  align-self: flex-start;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.messages-back-button:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: transparent;
+  transform: translateX(-4px);
+  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.3);
+}
+
+.messages-back-button svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s;
+}
+
+.messages-back-button:hover svg {
+  transform: translateX(-4px);
+}
+
+.messages-title {
+  font-size: 36px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  letter-spacing: -0.5px;
+  animation: slideIn 0.6s ease-out;
+}
+
+.messages-loading {
+  text-align: center;
+  padding: 64px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.messages-empty {
+  text-align: center;
+  padding: 80px 40px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.messages-empty-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  color: #667eea;
+  opacity: 0.7;
+}
+
+.messages-empty-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 12px;
+}
+
+.messages-empty-hint {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.messages-item {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  animation: fadeIn 0.4s ease-out backwards;
+}
+
+.messages-item:hover {
+  border-color: rgba(102, 126, 234, 0.5);
+  box-shadow: 0 10px 20px -5px rgba(102, 126, 234, 0.3), 0 4px 6px -2px rgba(102, 126, 234, 0.2);
+  transform: translateY(-4px) scale(1.01);
+  background: rgba(255, 255, 255, 1);
+}
+
+.messages-item-unread {
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.95) 0%, rgba(253, 230, 138, 0.95) 100%);
+  border-color: #fbbf24;
+  box-shadow: 0 6px 12px rgba(251, 191, 36, 0.3);
+}
+
+.messages-item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.messages-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.messages-item-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.messages-item-time {
+  font-size: 14px;
+  color: #6b7280;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.messages-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.messages-item-user {
+  font-size: 15px;
+  color: #4b5563;
+  margin: 0;
+  font-weight: 600;
+}
+
+.messages-item-preview {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.messages-item-badge {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 16px;
+  min-width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(245, 87, 108, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
