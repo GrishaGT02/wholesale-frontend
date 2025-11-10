@@ -27,7 +27,18 @@ export function Profile() {
       setTimeout(() => setSuccess(''), 3000);
     },
     onError: (err: any) => {
-      setError(err.response?.data?.detail || 'Ошибка при обновлении профиля');
+      // Обработка разных типов ошибок
+      if (err.response?.status === 401 || err.response?.status === 404) {
+        // Токен невалидный или пользователь не найден
+        localStorage.removeItem('access_token');
+        navigate('/login');
+      } else if (err.response?.status === 400) {
+        setError(err.response?.data?.detail || 'Ошибка валидации данных');
+      } else if (err.response?.status === 500) {
+        setError('Ошибка сервера. Попробуйте позже.');
+      } else {
+        setError(err.response?.data?.detail || 'Ошибка при обновлении профиля');
+      }
       setSuccess('');
     },
   });

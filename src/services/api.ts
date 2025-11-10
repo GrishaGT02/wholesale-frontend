@@ -28,9 +28,23 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    // Обработка ошибок аутентификации
     if (error.response?.status === 401) {
       localStorage.removeItem('access_token');
-      window.location.href = '/login';
+      // Используем window.location только если мы не на странице логина/регистрации
+      if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/register')) {
+        window.location.href = '/login';
+      }
+    }
+    // Обработка 404 - может быть из-за невалидного токена или несуществующего ресурса
+    if (error.response?.status === 404) {
+      // Если это запрос к /auth/me или /users/me, значит токен невалидный
+      if (error.config?.url?.includes('/auth/me') || error.config?.url?.includes('/users/me')) {
+        localStorage.removeItem('access_token');
+        if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/register')) {
+          window.location.href = '/login';
+        }
+      }
     }
     return Promise.reject(error);
   }

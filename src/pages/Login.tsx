@@ -19,8 +19,21 @@ export function Login() {
       await authAPI.login(username, password);
       navigate('/');
     } catch (err: unknown) {
-      const error = err as { response?: { data?: { detail?: string } } };
-      setError(error.response?.data?.detail || 'Ошибка входа. Проверьте учетные данные.');
+      const error = err as { response?: { data?: { detail?: string }; status?: number }; message?: string };
+      // Обработка разных типов ошибок
+      if (error.response?.status === 404) {
+        setError('Сервер не найден. Проверьте настройки API.');
+      } else if (error.response?.status === 401) {
+        setError('Неверное имя пользователя или пароль.');
+      } else if (error.response?.status === 500) {
+        setError('Ошибка сервера. Попробуйте позже.');
+      } else if (error.response?.data?.detail) {
+        setError(error.response.data.detail);
+      } else if (error.message) {
+        setError(error.message);
+      } else {
+        setError('Ошибка входа. Проверьте учетные данные.');
+      }
     } finally {
       setLoading(false);
     }
