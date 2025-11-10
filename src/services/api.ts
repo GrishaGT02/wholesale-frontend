@@ -28,18 +28,28 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    const url = error.config?.url || '';
+    
     // Обработка ошибок аутентификации
     if (error.response?.status === 401) {
-      localStorage.removeItem('access_token');
-      // Используем window.location только если мы не на странице логина/регистрации
-      if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/register')) {
-        window.location.href = '/login';
+      // Исключаем эндпоинты, где 401 может быть не из-за невалидного токена
+      // (например, при обновлении профиля может быть ошибка валидации)
+      const isProfileUpdate = url.includes('/users/me') && error.config?.method === 'put';
+      
+      if (!isProfileUpdate) {
+        // Для других запросов - стандартная обработка
+        localStorage.removeItem('access_token');
+        // Используем window.location только если мы не на странице логина/регистрации
+        if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/register')) {
+          window.location.href = '/login';
+        }
       }
+      // Для обновления профиля - не перенаправляем, пусть компонент сам обработает
     }
     // Обработка 404 - может быть из-за невалидного токена или несуществующего ресурса
     if (error.response?.status === 404) {
-      // Если это запрос к /auth/me или /users/me, значит токен невалидный
-      if (error.config?.url?.includes('/auth/me') || error.config?.url?.includes('/users/me')) {
+      // Если это запрос к /auth/me (но не PUT /users/me), значит токен невалидный
+      if (url.includes('/auth/me') || (url.includes('/users/me') && error.config?.method !== 'put')) {
         localStorage.removeItem('access_token');
         if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/register')) {
           window.location.href = '/login';

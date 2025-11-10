@@ -28,8 +28,20 @@ export function Profile() {
     },
     onError: (err: any) => {
       // Обработка разных типов ошибок
-      if (err.response?.status === 401 || err.response?.status === 404) {
-        // Токен невалидный или пользователь не найден
+      if (err.response?.status === 401) {
+        // 401 может быть из-за невалидного токена или ошибки валидации
+        // Проверяем детали ошибки
+        const errorDetail = err.response?.data?.detail || '';
+        if (errorDetail.includes('Не удалось подтвердить') || errorDetail.includes('credentials') || !errorDetail) {
+          // Токен действительно невалидный - перенаправляем на логин
+          localStorage.removeItem('access_token');
+          navigate('/login');
+        } else {
+          // Это ошибка валидации или другая ошибка - показываем сообщение
+          setError(errorDetail || 'Ошибка при обновлении профиля. Проверьте данные.');
+        }
+      } else if (err.response?.status === 404) {
+        // Пользователь не найден - возможно токен невалидный
         localStorage.removeItem('access_token');
         navigate('/login');
       } else if (err.response?.status === 400) {
