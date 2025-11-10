@@ -5,4 +5,5 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   // base: '/china/', // Закомментировано для деплоя на Render
+  publicDir: 'public', // Убеждаемся, что public директория копируется
 })
