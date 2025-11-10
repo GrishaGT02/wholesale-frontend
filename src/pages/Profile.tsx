@@ -20,7 +20,9 @@ export function Profile() {
   const updateProfileMutation = useMutation({
     mutationFn: (data: { email?: string; username?: string; organization_name?: string; inn?: string }) =>
       authAPI.updateProfile(data),
-    onSuccess: () => {
+    onSuccess: (data) => {
+      // Токен уже обновлен в api.ts, если username изменился
+      // Просто обновляем данные пользователя
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       setSuccess('Профиль успешно обновлен!');
       setError('');

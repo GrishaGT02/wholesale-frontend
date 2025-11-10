@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Order, OrderCreate, Token, User, UserCreate, UserUpdate, Supplier, Message, MessageCreate, ChatInfo } from '../types';
+import type { Order, OrderCreate, Token, User, UserCreate, UserUpdate, UserUpdateResponse, Supplier, Message, MessageCreate, ChatInfo } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
@@ -98,8 +98,12 @@ export const authAPI = {
     return response.data;
   },
 
-  updateProfile: async (data: UserUpdate): Promise<User> => {
-    const response = await api.put<User>('/users/me', data);
+  updateProfile: async (data: UserUpdate): Promise<UserUpdateResponse> => {
+    const response = await api.put<UserUpdateResponse>('/users/me', data);
+    // Если в ответе есть новый токен (username изменился), обновляем его
+    if (response.data.access_token) {
+      localStorage.setItem('access_token', response.data.access_token);
+    }
     return response.data;
   },
 };

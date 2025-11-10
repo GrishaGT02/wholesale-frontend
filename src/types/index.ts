@@ -89,6 +89,10 @@ export interface UserUpdate {
   inn?: string;
 }
 
+export interface UserUpdateResponse extends User {
+  access_token?: string | null;
+}
+
 export interface Supplier {
   id: number;
   name: string;
