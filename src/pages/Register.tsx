@@ -1,12 +1,15 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { authAPI } from '../services/api';
 import { UserRole } from '../types';
 import './Register.css';
 
 export function Register() {
+  const [searchParams] = useSearchParams();
+  const roleParam = searchParams.get('role');
+  
   const [formData, setFormData] = useState({
-    role: 'buyer' as UserRole,
+    role: (roleParam === 'supplier' ? 'supplier' : 'buyer') as UserRole,
     email: '',
     username: '',
     organization_name: '',
@@ -17,6 +20,12 @@ export function Register() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (roleParam === 'supplier' || roleParam === 'buyer') {
+      setFormData(prev => ({ ...prev, role: roleParam as UserRole }));
+    }
+  }, [roleParam]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,7 +60,7 @@ export function Register() {
       });
       // После регистрации сразу логинимся
       await authAPI.login(formData.username, formData.password);
-      navigate('/');
+      navigate('/dashboard');
     } catch (err: unknown) {
       const error = err as { response?: { data?: { detail?: string } } };
       setError(error.response?.data?.detail || 'Ошибка регистрации');
@@ -210,8 +219,26 @@ export function Register() {
 
           <div className="register-link">
             Уже есть аккаунт?{' '}
-            <Link to="/login">Войти</Link>
+            <Link to={roleParam ? `/login?role=${roleParam}` : '/login'}>Войти</Link>
           </div>
+          {roleParam && (
+            <div className="register-link" style={{ marginTop: '10px' }}>
+              <button
+                type="button"
+                onClick={() => navigate('/')}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#6b7280',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  textDecoration: 'underline',
+                }}
+              >
+                ← Вернуться на главную
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>

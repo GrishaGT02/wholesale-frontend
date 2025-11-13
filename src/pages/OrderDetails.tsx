@@ -41,7 +41,7 @@ export function OrderDetails() {
         <div className="order-details-content">
           <div className="order-details-error">
             <h2>Заказ не найден</h2>
-            <button onClick={() => navigate('/')} className="btn btn-primary">
+            <button onClick={() => navigate('/dashboard')} className="btn btn-primary">
               Вернуться к списку заказов
             </button>
           </div>
@@ -75,7 +75,7 @@ export function OrderDetails() {
       <div className="order-details-content">
         <div className="order-details-header">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/dashboard')}
             className="btn btn-secondary"
             style={{ marginBottom: '20px' }}
           >

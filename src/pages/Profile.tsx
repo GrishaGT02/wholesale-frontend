@@ -145,7 +145,7 @@ export function Profile() {
       <div className="profile-content">
         <div className="profile-header">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/dashboard')}
             className="btn btn-secondary"
             style={{ marginBottom: '20px' }}
           >
@@ -275,7 +275,7 @@ export function Profile() {
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => navigate('/')}
+                onClick={() => navigate('/dashboard')}
                 disabled={updateProfileMutation.isPending}
               >
                 Отмена

@@ -48,7 +48,7 @@ export function Messages() {
         <div className="messages-container">
           <div className="messages-header">
             <button
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/dashboard')}
               className="messages-back-button"
             >
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">

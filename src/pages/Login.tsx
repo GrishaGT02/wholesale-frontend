@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { authAPI } from '../services/api';
 import './Login.css';
 
@@ -9,6 +9,8 @@ export function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const role = searchParams.get('role');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,7 +19,7 @@ export function Login() {
 
     try {
       await authAPI.login(username, password);
-      navigate('/');
+      navigate('/dashboard');
     } catch (err: unknown) {
       const error = err as { response?: { data?: { detail?: string }; status?: number }; message?: string };
       // Обработка разных типов ошибок
@@ -106,8 +108,26 @@ export function Login() {
 
           <div className="login-link">
             Нет аккаунта?{' '}
-            <Link to="/register">Зарегистрироваться</Link>
+            <Link to={role ? `/register?role=${role}` : '/register'}>Зарегистрироваться</Link>
           </div>
+          {role && (
+            <div className="login-link" style={{ marginTop: '10px' }}>
+              <button
+                type="button"
+                onClick={() => navigate('/')}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#6b7280',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  textDecoration: 'underline',
+                }}
+              >
+                ← Вернуться на главную
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>

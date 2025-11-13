@@ -51,7 +51,7 @@ export function CreateOrder() {
         cost: parseFloat(formData.cost),
         note: formData.note || undefined,
       });
-      navigate('/');
+      navigate('/dashboard');
     } catch (err: unknown) {
       const error = err as { response?: { data?: { detail?: string } } };
       setError(error.response?.data?.detail || 'Ошибка создания заказа');
@@ -207,7 +207,7 @@ export function CreateOrder() {
           <div className="form-actions">
             <button
               type="button"
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/dashboard')}
               className="btn btn-secondary"
             >
               Отмена
